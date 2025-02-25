@@ -1,9 +1,13 @@
 package com.codeacademy.diningreview.model;
 
+import com.codeacademy.diningreview.enums.ReviewStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "dining_reviews")
@@ -42,4 +46,8 @@ public class DiningReview {
 
     @Column(name = "commentary")
     private String commentary;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus status = ReviewStatus.PENDING;
 }

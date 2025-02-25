@@ -3,6 +3,8 @@ package com.codeacademy.diningreview.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "restaurants")
 @Getter
@@ -28,14 +30,14 @@ public class Restaurant {
     private String cuisineType;
 
     @Column(name = "peanut_score", precision = 3, scale = 1)
-    private Double peanutScore;
+    private BigDecimal peanutScore;
 
     @Column(name = "egg_score", precision = 3, scale = 1)
-    private Double eggScore;
+    private BigDecimal eggScore;
 
     @Column(name = "dairy_score", precision = 3, scale = 1)
-    private Double dairyScore;
+    private BigDecimal dairyScore;
 
     @Column(name = "overall_score", precision = 3, scale = 1)
-    private Double overallScore;
+    private BigDecimal overallScore;
 }

@@ -27,19 +27,19 @@ public class DiningReview {
 
     @Min(1)
     @Max(5)
-    @Column(name = "peanut_score", nullable = true)
+    @Column(name = "peanut_score")
     private Double peanutScore;
 
     @Min(1)
     @Max(5)
-    @Column(name = "egg_score", nullable = true)
+    @Column(name = "egg_score")
     private Double eggScore;
 
     @Min(1)
     @Max(5)
-    @Column(name = "dairy_score", nullable = true)
+    @Column(name = "dairy_score")
     private Double dairyScore;
 
-    @Column(name = "commentary", nullable = true)
+    @Column(name = "commentary")
     private String commentary;
 }

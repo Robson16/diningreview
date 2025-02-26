@@ -2,9 +2,11 @@ package com.codeacademy.diningreview.controller;
 
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
+import com.codeacademy.diningreview.exception.UserNotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.service.UserService;
 import com.codeacademy.diningreview.util.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,19 @@ public class UserController {
             return ResponseEntity.ok(ApiResponse.success("Usuário criado com sucesso!", response));
         } catch (DisplayNameAlreadyInUseException e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{displayName}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable String displayName, @RequestBody User user) {
+        try {
+            UserResponse response = userService.updateUser(displayName, user);
+
+            return ResponseEntity.ok(ApiResponse.success("Usuário atualizado com sucesso!", response));
+        } catch (DisplayNameAlreadyInUseException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Usuário não encontrado"));
         }
     }
 }

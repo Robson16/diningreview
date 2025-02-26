@@ -2,6 +2,7 @@ package com.codeacademy.diningreview.service;
 
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
+import com.codeacademy.diningreview.exception.UserNotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -51,18 +52,17 @@ public class UserService {
         );
     }
 
-
-    public User updateUser(Long userId, User updatedUser) {
-        Optional<User> existingUserOptional = userRepository.findById(userId);
+    public UserResponse updateUser(String displayName, User updatedUser) {
+        Optional<User> existingUserOptional = userRepository.findByDisplayName(displayName);
 
         if (existingUserOptional.isEmpty()) {
-            throw new IllegalArgumentException("Usuário não encontrado.");
+            throw new UserNotFoundException("Usuário não encontrado.");
         }
 
         User existingUser = existingUserOptional.get();
 
         if (!existingUser.getDisplayName().equals(updatedUser.getDisplayName())) {
-            throw new IllegalArgumentException("O display name não pode ser alterado.");
+            throw new DisplayNameAlreadyInUseException("O nome de exibição não pode ser alterado.");
         }
 
         existingUser.setCity(updatedUser.getCity());
@@ -72,7 +72,17 @@ public class UserService {
         existingUser.setEggAllergyInterest(updatedUser.getEggAllergyInterest());
         existingUser.setDairyAllergyInterest(updatedUser.getDairyAllergyInterest());
 
-        return userRepository.save(existingUser);
+        userRepository.save(existingUser);
+
+        return new UserResponse(
+                existingUser.getDisplayName(),
+                existingUser.getCity(),
+                existingUser.getState(),
+                existingUser.getZipCode(),
+                existingUser.getPeanutAllergyInterest(),
+                existingUser.getEggAllergyInterest(),
+                existingUser.getDairyAllergyInterest()
+        );
     }
 
     public Optional<User> getUserByDisplayName(String displayName) {

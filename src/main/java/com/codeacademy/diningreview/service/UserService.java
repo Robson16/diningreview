@@ -6,7 +6,9 @@ import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -15,6 +17,22 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public List<UserResponse> gelAllUsers() {
+        List<User> users = (List<User>) this.userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getDisplayName(),
+                        user.getCity(),
+                        user.getState(),
+                        user.getZipCode(),
+                        user.getPeanutAllergyInterest(),
+                        user.getEggAllergyInterest(),
+                        user.getDairyAllergyInterest()
+                ))
+                .collect(Collectors.toList());
     }
 
     public UserResponse createUser(User user) {
@@ -34,6 +52,7 @@ public class UserService {
                 savedUser.getDairyAllergyInterest()
         );
     }
+
 
     public User updateUser(Long userId, User updatedUser) {
         Optional<User> existingUserOptional = userRepository.findById(userId);

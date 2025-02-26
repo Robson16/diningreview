@@ -1,11 +1,14 @@
 package com.codeacademy.diningreview.controller;
 
-import com.codeacademy.diningreview.dto.CreateUserResponse;
+import com.codeacademy.diningreview.dto.ErrorMessage;
+import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -14,6 +17,13 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = this.userService.gelAllUsers();
+
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping

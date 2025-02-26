@@ -23,7 +23,6 @@ public class UserService {
         List<User> users = (List<User>) this.userRepository.findAll();
         return users.stream()
                 .map(user -> new UserResponse(
-                        user.getId(),
                         user.getDisplayName(),
                         user.getCity(),
                         user.getState(),
@@ -37,12 +36,11 @@ public class UserService {
 
     public UserResponse createUser(User user) {
         if (userRepository.existsByDisplayName(user.getDisplayName())) {
-            throw new DisplayNameAlreadyInUseException("Display name já está em uso.");
+            throw new DisplayNameAlreadyInUseException("Nome de exibição já está em uso.");
         }
         User savedUser = userRepository.save(user);
 
         return new UserResponse(
-                savedUser.getId(),
                 savedUser.getDisplayName(),
                 savedUser.getCity(),
                 savedUser.getState(),

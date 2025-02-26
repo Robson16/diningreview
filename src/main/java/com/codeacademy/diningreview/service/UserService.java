@@ -19,7 +19,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserResponse> gelAllUsers() {
+    public List<UserResponse> getAllUsers() {
         List<User> users = (List<User>) this.userRepository.findAll();
         return users.stream()
                 .map(user -> new UserResponse(

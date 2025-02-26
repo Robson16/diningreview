@@ -19,11 +19,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            CreateUserResponse response = userService.createUser(user);
+            UserResponse response = userService.createUser(user);
 
             return ResponseEntity.ok(response);
         } catch (DisplayNameAlreadyInUseException e) {
-            return ResponseEntity.badRequest().body(new CreateUserResponse(null, user.getDisplayName(), e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
         }
     }
 }

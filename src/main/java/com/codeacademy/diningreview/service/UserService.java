@@ -36,10 +36,10 @@ public class UserService {
     }
 
     public UserResponse createUser(User user) {
-        if (userRepository.existsByDisplayName(user.getDisplayName())) {
+        if (this.userRepository.existsByDisplayName(user.getDisplayName())) {
             throw new DisplayNameAlreadyInUseException("Nome de exibição já está em uso.");
         }
-        User savedUser = userRepository.save(user);
+        User savedUser = this.userRepository.save(user);
 
         return new UserResponse(
                 savedUser.getDisplayName(),
@@ -53,7 +53,7 @@ public class UserService {
     }
 
     public UserResponse updateUser(String displayName, User updatedUser) {
-        Optional<User> existingUserOptional = userRepository.findByDisplayName(displayName);
+        Optional<User> existingUserOptional = this.userRepository.findByDisplayName(displayName);
 
         if (existingUserOptional.isEmpty()) {
             throw new UserNotFoundException("Usuário não encontrado.");
@@ -72,7 +72,7 @@ public class UserService {
         existingUser.setEggAllergyInterest(updatedUser.getEggAllergyInterest());
         existingUser.setDairyAllergyInterest(updatedUser.getDairyAllergyInterest());
 
-        userRepository.save(existingUser);
+        this.userRepository.save(existingUser);
 
         return new UserResponse(
                 existingUser.getDisplayName(),

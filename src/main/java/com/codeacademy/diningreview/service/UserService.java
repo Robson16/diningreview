@@ -85,8 +85,24 @@ public class UserService {
         );
     }
 
-    public Optional<User> getUserByDisplayName(String displayName) {
-        return userRepository.findByDisplayName(displayName);
+    public UserResponse getUserByDisplayName(String displayName) {
+        Optional<User> existingUserOptional = this.userRepository.findByDisplayName(displayName);
+
+        if (existingUserOptional.isEmpty()) {
+            throw new UserNotFoundException("Usuário não encontrado.");
+        }
+
+        User existingUser = existingUserOptional.get();
+
+        return new UserResponse(
+                existingUser.getDisplayName(),
+                existingUser.getCity(),
+                existingUser.getState(),
+                existingUser.getZipCode(),
+                existingUser.getPeanutAllergyInterest(),
+                existingUser.getEggAllergyInterest(),
+                existingUser.getDairyAllergyInterest()
+        );
     }
 
     public boolean userExists(String displayName) {

@@ -23,9 +23,20 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
+        List<UserResponse> response = userService.getAllUsers();
 
-        return ResponseEntity.ok(ApiResponse.success(users));
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{displayName}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUserByDisplayName(@PathVariable String displayName) {
+        try {
+            UserResponse response = userService.getUserByDisplayName(displayName);
+
+            return ResponseEntity.ok(ApiResponse.success(response));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Usuário não encontrado"));
+        }
     }
 
     @PostMapping

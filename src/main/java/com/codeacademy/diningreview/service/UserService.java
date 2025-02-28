@@ -2,6 +2,7 @@ package com.codeacademy.diningreview.service;
 
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
+import com.codeacademy.diningreview.exception.ForbiddenActionException;
 import com.codeacademy.diningreview.exception.UserNotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.repository.UserRepository;
@@ -62,7 +63,7 @@ public class UserService {
         User existingUser = existingUserOptional.get();
 
         if (!existingUser.getDisplayName().equals(updatedUser.getDisplayName())) {
-            throw new DisplayNameAlreadyInUseException("O nome de exibição não pode ser alterado.");
+            throw new ForbiddenActionException("O nome de exibição não pode ser alterado.");
         }
 
         existingUser.setCity(updatedUser.getCity());

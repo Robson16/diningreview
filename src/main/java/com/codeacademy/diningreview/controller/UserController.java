@@ -2,6 +2,7 @@ package com.codeacademy.diningreview.controller;
 
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
+import com.codeacademy.diningreview.exception.ForbiddenActionException;
 import com.codeacademy.diningreview.exception.UserNotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.service.UserService;
@@ -46,7 +47,7 @@ public class UserController {
 
             return ResponseEntity.ok(ApiResponse.success("Usuário criado com sucesso!", response));
         } catch (DisplayNameAlreadyInUseException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.status(409).body(ApiResponse.error(e.getMessage()));
         }
     }
 
@@ -56,10 +57,10 @@ public class UserController {
             UserResponse response = userService.updateUser(displayName, user);
 
             return ResponseEntity.ok(ApiResponse.success("Usuário atualizado com sucesso!", response));
-        } catch (DisplayNameAlreadyInUseException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        } catch (ForbiddenActionException e) {
+            return ResponseEntity.status(403).body(ApiResponse.error(e.getMessage()));
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Usuário não encontrado"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(e.getMessage()));
         }
     }
 }

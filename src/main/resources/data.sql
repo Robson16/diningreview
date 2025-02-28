@@ -34,3 +34,11 @@ INSERT INTO users (display_name, city, state, zip_code, peanut_allergy_interest,
 INSERT INTO users (display_name, city, state, zip_code, peanut_allergy_interest, egg_allergy_interest, dairy_allergy_interest) VALUES ('Tar-Aldarion', 'Númenor', 'Númenor', '23480', TRUE, FALSE, FALSE);
 INSERT INTO users (display_name, city, state, zip_code, peanut_allergy_interest, egg_allergy_interest, dairy_allergy_interest) VALUES ('Isildur', 'Minas Ithil', 'Gondor', '34590', FALSE, TRUE, TRUE);
 INSERT INTO users (display_name, city, state, zip_code, peanut_allergy_interest, egg_allergy_interest, dairy_allergy_interest) VALUES ('Anárion', 'Minas Anor', 'Gondor', '45600', TRUE, FALSE, TRUE);
+
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('The Prancing Pony', 'Bree, Middle-earth', '10001', 'Pub', 4.5, 4.2, 4.8, 4.5);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Green Dragon Inn', 'Bywater, The Shire', '10002', 'Traditional Hobbit Cuisine', 5.0, 4.9, 4.7, 4.9);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Rivendell Feast Hall', 'Rivendell, Middle-earth', '10003', 'Elven Gourmet', 4.8, 5.0, 5.0, 4.9);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Mordor BBQ Pit', 'Mount Doom, Mordor', '10004', 'Grilled Meat', 3.2, 3.8, 3.5, 3.6);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Gondor Royal Banquet', 'Minas Tirith, Gondor', '10005', 'Fine Dining', 4.7, 4.6, 4.5, 4.6);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Rohan Mead Hall', 'Edoras, Rohan', '10006', 'Medieval Feast', 4.4, 4.2, 4.0, 4.2);
+INSERT INTO restaurants (name, address, zip_code, cuisine_type, peanut_score, egg_score, dairy_score, overall_score) VALUES ('Lothlórien Vegan Delights', 'Caras Galadhon, Lothlórien', '10007', 'Elven Vegan', 5.0, 5.0, 5.0, 5.0);

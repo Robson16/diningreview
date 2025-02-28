@@ -18,12 +18,15 @@ public class Restaurant {
     private Long id;
 
     @NonNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @NonNull
     @Column(name = "address", nullable = false)
     private String address;
+
+    @Column(name = "zip_code", unique = true,  nullable = false)
+    private String zipCode;
 
     @NonNull
     @Column(name = "cuisine_type", nullable = false)

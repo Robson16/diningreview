@@ -3,7 +3,7 @@ package com.codeacademy.diningreview.service;
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
 import com.codeacademy.diningreview.exception.ForbiddenActionException;
-import com.codeacademy.diningreview.exception.UserNotFoundException;
+import com.codeacademy.diningreview.exception.NotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class UserService {
         Optional<User> existingUserOptional = this.userRepository.findByDisplayName(displayName);
 
         if (existingUserOptional.isEmpty()) {
-            throw new UserNotFoundException("Usuário não encontrado.");
+            throw new NotFoundException("Usuário não encontrado.");
         }
 
         User existingUser = existingUserOptional.get();
@@ -87,22 +87,22 @@ public class UserService {
     }
 
     public UserResponse getUserByDisplayName(String displayName) {
-        Optional<User> existingUserOptional = this.userRepository.findByDisplayName(displayName);
+        Optional<User> userToFindOptional = this.userRepository.findByDisplayName(displayName);
 
-        if (existingUserOptional.isEmpty()) {
-            throw new UserNotFoundException("Usuário não encontrado.");
+        if (userToFindOptional.isEmpty()) {
+            throw new NotFoundException("Usuário não encontrado.");
         }
 
-        User existingUser = existingUserOptional.get();
+        User userFound = userToFindOptional.get();
 
         return new UserResponse(
-                existingUser.getDisplayName(),
-                existingUser.getCity(),
-                existingUser.getState(),
-                existingUser.getZipCode(),
-                existingUser.getPeanutAllergyInterest(),
-                existingUser.getEggAllergyInterest(),
-                existingUser.getDairyAllergyInterest()
+                userFound.getDisplayName(),
+                userFound.getCity(),
+                userFound.getState(),
+                userFound.getZipCode(),
+                userFound.getPeanutAllergyInterest(),
+                userFound.getEggAllergyInterest(),
+                userFound.getDairyAllergyInterest()
         );
     }
 

@@ -39,6 +39,18 @@ public class RestaurantController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<RestaurantResponse>>> getRestaurantsByZipAndAllergy(
+            @RequestParam String zipCode,
+            @RequestParam(defaultValue = "false") boolean peanut,
+            @RequestParam(defaultValue = "false") boolean egg,
+            @RequestParam(defaultValue = "false") boolean dairy) {
+
+        List<RestaurantResponse> response = restaurantService.getRestaurantsByZipAndAllergy(zipCode, peanut, egg, dairy);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<RestaurantResponse>> createRestaurant(@RequestBody Restaurant restaurant) {
         try {

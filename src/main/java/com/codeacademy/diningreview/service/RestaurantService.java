@@ -77,4 +77,21 @@ public class RestaurantService {
                 restaurantFound.getOverallScore()
         );
     }
+
+    public List<RestaurantResponse> getRestaurantsByZipAndAllergy(String zipCode, boolean peanut, boolean egg, boolean dairy) {
+        List<Restaurant> restaurants = this.restaurantRepository.findByZipCodeAndReviewedAllergies(zipCode, peanut, egg, dairy);
+        return restaurants.stream().map(
+                        restaurant -> new RestaurantResponse(
+                                restaurant.getId(),
+                                restaurant.getName(),
+                                restaurant.getAddress(),
+                                restaurant.getZipCode(),
+                                restaurant.getCuisineType(),
+                                restaurant.getPeanutScore(),
+                                restaurant.getEggScore(),
+                                restaurant.getDairyScore(),
+                                restaurant.getOverallScore()
+                        ))
+                .collect(Collectors.toList());
+    }
 }

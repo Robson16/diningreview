@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -17,6 +18,9 @@ public class Restaurant {
     @Column(name = "id")
     private Long id;
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<DiningReview> diningReviews;
+
     @NonNull
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -25,7 +29,8 @@ public class Restaurant {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "zip_code", unique = true,  nullable = false)
+    @NonNull
+    @Column(name = "zip_code", nullable = false)
     private String zipCode;
 
     @NonNull

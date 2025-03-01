@@ -3,7 +3,7 @@ package com.codeacademy.diningreview.controller;
 import com.codeacademy.diningreview.dto.UserResponse;
 import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
 import com.codeacademy.diningreview.exception.ForbiddenActionException;
-import com.codeacademy.diningreview.exception.UserNotFoundException;
+import com.codeacademy.diningreview.exception.NotFoundException;
 import com.codeacademy.diningreview.model.User;
 import com.codeacademy.diningreview.service.UserService;
 import com.codeacademy.diningreview.util.ApiResponse;
@@ -35,7 +35,7 @@ public class UserController {
             UserResponse response = userService.getUserByDisplayName(displayName);
 
             return ResponseEntity.ok(ApiResponse.success(response));
-        } catch (UserNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Usuário não encontrado"));
         }
     }
@@ -59,7 +59,7 @@ public class UserController {
             return ResponseEntity.ok(ApiResponse.success("Usuário atualizado com sucesso!", response));
         } catch (ForbiddenActionException e) {
             return ResponseEntity.status(403).body(ApiResponse.error(e.getMessage()));
-        } catch (UserNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(e.getMessage()));
         }
     }

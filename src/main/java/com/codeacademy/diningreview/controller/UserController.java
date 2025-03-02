@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
-        List<UserResponse> response = userService.getAllUsers();
+        List<UserResponse> response = this.userService.getAllUsers();
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping("/{displayName}")
     public ResponseEntity<ApiResponse<UserResponse>> getUserByDisplayName(@PathVariable String displayName) {
         try {
-            UserResponse response = userService.getUserByDisplayName(displayName);
+            UserResponse response = this.userService.getUserByDisplayName(displayName);
 
             return ResponseEntity.ok(ApiResponse.success(response));
         } catch (NotFoundException e) {
@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody User user) {
         try {
-            UserResponse response = userService.createUser(user);
+            UserResponse response = this.userService.createUser(user);
 
             return ResponseEntity.ok(ApiResponse.success("Usuário criado com sucesso!", response));
         } catch (DisplayNameAlreadyInUseException e) {
@@ -54,7 +54,7 @@ public class UserController {
     @PutMapping("/{displayName}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable String displayName, @RequestBody User user) {
         try {
-            UserResponse response = userService.updateUser(displayName, user);
+            UserResponse response = this.userService.updateUser(displayName, user);
 
             return ResponseEntity.ok(ApiResponse.success("Usuário atualizado com sucesso!", response));
         } catch (ForbiddenActionException e) {

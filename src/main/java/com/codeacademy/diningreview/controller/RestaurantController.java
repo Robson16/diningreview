@@ -23,7 +23,7 @@ public class RestaurantController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<RestaurantResponse>>> getAllRestaurants() {
-        List<RestaurantResponse> response = restaurantService.getAllRestaurants();
+        List<RestaurantResponse> response = this.restaurantService.getAllRestaurants();
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -31,7 +31,7 @@ public class RestaurantController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<RestaurantResponse>> getRestaurantDetails(@PathVariable Long id) {
         try {
-            RestaurantResponse response = restaurantService.getRestaurantById(id);
+            RestaurantResponse response = this.restaurantService.getRestaurantById(id);
 
             return ResponseEntity.ok(ApiResponse.success(response));
         } catch (NotFoundException e) {
@@ -46,7 +46,7 @@ public class RestaurantController {
             @RequestParam(defaultValue = "false") boolean egg,
             @RequestParam(defaultValue = "false") boolean dairy) {
 
-        List<RestaurantResponse> response = restaurantService.getRestaurantsByZipAndAllergy(zipCode, peanut, egg, dairy);
+        List<RestaurantResponse> response = this.restaurantService.getRestaurantsByZipAndAllergy(zipCode, peanut, egg, dairy);
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -54,7 +54,7 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<ApiResponse<RestaurantResponse>> createRestaurant(@RequestBody Restaurant restaurant) {
         try {
-            RestaurantResponse response = restaurantService.createRestaurant(restaurant);
+            RestaurantResponse response = this.restaurantService.createRestaurant(restaurant);
 
             return ResponseEntity.ok(ApiResponse.success("Restaurante criado com sucesso!", response));
         } catch (RestaurantAlreadyExistsException e) {

@@ -1,7 +1,9 @@
 package com.codeacademy.diningreview.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
 
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     private final boolean success;
@@ -31,15 +33,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, message);
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
+    public static <T> ApiResponse<T> error(String message, T data) {
+        return new ApiResponse<>(false, message, data);
     }
 }

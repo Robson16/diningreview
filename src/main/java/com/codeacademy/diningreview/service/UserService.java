@@ -1,7 +1,7 @@
 package com.codeacademy.diningreview.service;
 
 import com.codeacademy.diningreview.dto.UserResponse;
-import com.codeacademy.diningreview.exception.DisplayNameAlreadyInUseException;
+import com.codeacademy.diningreview.exception.AlreadyExistsException;
 import com.codeacademy.diningreview.exception.ForbiddenActionException;
 import com.codeacademy.diningreview.exception.NotFoundException;
 import com.codeacademy.diningreview.model.User;
@@ -38,7 +38,7 @@ public class UserService {
 
     public UserResponse createUser(User user) {
         if (this.userRepository.existsByDisplayName(user.getDisplayName())) {
-            throw new DisplayNameAlreadyInUseException("Nome de exibição já está em uso.");
+            throw new AlreadyExistsException("Nome de exibição já está em uso.");
         }
         User savedUser = this.userRepository.save(user);
 

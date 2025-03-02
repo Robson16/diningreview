@@ -45,15 +45,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(403).body(ApiResponse.error(e.getMessage()));
     }
 
-    // Catches exceptions from DisplayNameAlreadyInUseException
-    @ExceptionHandler(DisplayNameAlreadyInUseException.class)
-    public ResponseEntity<ApiResponse<String>> handleDisplayNameAlreadyInUseException(DisplayNameAlreadyInUseException e) {
-        return ResponseEntity.status(409).body(ApiResponse.error(e.getMessage()));
-    }
 
     // Catches exceptions from RestaurantAlreadyExistsException
-    @ExceptionHandler(RestaurantAlreadyExistsException.class)
-    public ResponseEntity<ApiResponse<String>> handleRestaurantAlreadyExistsException(RestaurantAlreadyExistsException e) {
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ApiResponse<String>> handleRestaurantAlreadyExistsException(AlreadyExistsException e) {
         return ResponseEntity.status(409).body(ApiResponse.error(e.getMessage()));
     }
 

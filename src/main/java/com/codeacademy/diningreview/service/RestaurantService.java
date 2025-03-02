@@ -2,7 +2,7 @@ package com.codeacademy.diningreview.service;
 
 import com.codeacademy.diningreview.dto.RestaurantResponse;
 import com.codeacademy.diningreview.exception.NotFoundException;
-import com.codeacademy.diningreview.exception.RestaurantAlreadyExistsException;
+import com.codeacademy.diningreview.exception.AlreadyExistsException;
 import com.codeacademy.diningreview.model.Restaurant;
 import com.codeacademy.diningreview.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class RestaurantService {
 
     public RestaurantResponse createRestaurant(Restaurant restaurant) {
         if (this.restaurantRepository.existsByNameAndZipCode(restaurant.getName(), restaurant.getZipCode())) {
-            throw new RestaurantAlreadyExistsException("O restaurante já existe.");
+            throw new AlreadyExistsException("O restaurante já existe.");
         }
         Restaurant savedRestaurant = this.restaurantRepository.save(restaurant);
 

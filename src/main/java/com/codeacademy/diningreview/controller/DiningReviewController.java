@@ -2,11 +2,9 @@ package com.codeacademy.diningreview.controller;
 
 import com.codeacademy.diningreview.dto.DiningReviewRequest;
 import com.codeacademy.diningreview.dto.DiningReviewResponse;
-import com.codeacademy.diningreview.exception.NotFoundException;
 import com.codeacademy.diningreview.service.DiningReviewService;
 import com.codeacademy.diningreview.util.ApiResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,18 +21,14 @@ public class DiningReviewController {
     public ResponseEntity<ApiResponse<DiningReviewResponse>> createDiningReview(
             @PathVariable String userDisplayName,
             @PathVariable Long restaurantId,
-            @RequestBody @Valid DiningReviewRequest request
+            @RequestBody @Valid DiningReviewRequest diningReview
     ) {
-        try {
-            DiningReviewResponse response = this.diningReviewService.createDiningReview(
-                    userDisplayName,
-                    restaurantId,
-                    request
-            );
+        DiningReviewResponse response = this.diningReviewService.createDiningReview(
+                userDisplayName,
+                restaurantId,
+                diningReview
+        );
 
-            return ResponseEntity.ok(ApiResponse.success(response));
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(e.getMessage()));
-        }
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

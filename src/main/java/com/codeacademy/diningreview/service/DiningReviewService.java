@@ -32,8 +32,24 @@ public class DiningReviewService {
         this.diningReviewRepository = diningReviewRepository;
     }
 
-    public List<DiningReviewResponse> getAllPendingApproval() {
-        List<DiningReview> diningReviews = this.diningReviewRepository.findByStatus(ReviewStatus.PENDING);
+    public List<DiningReviewResponse> getAllDiningReview() {
+        List<DiningReview> diningReviews = (List<DiningReview>) this.diningReviewRepository.findAll();
+        return diningReviews.stream().map(
+                        diningReview -> new DiningReviewResponse(
+                                diningReview.getId(),
+                                diningReview.getSubmittedBy().getDisplayName(),
+                                diningReview.getRestaurant().getId(),
+                                diningReview.getPeanutScore(),
+                                diningReview.getEggScore(),
+                                diningReview.getDairyScore(),
+                                diningReview.getCommentary(),
+                                diningReview.getStatus()
+                        ))
+                .collect(Collectors.toList());
+    }
+
+    public List<DiningReviewResponse> getAllDiningReviewByStatus(ReviewStatus status) {
+        List<DiningReview> diningReviews = this.diningReviewRepository.findByStatus(status);
         return diningReviews.stream().map(
                         diningReview -> new DiningReviewResponse(
                                 diningReview.getId(),

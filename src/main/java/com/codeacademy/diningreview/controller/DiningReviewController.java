@@ -20,9 +20,18 @@ public class DiningReviewController {
         this.diningReviewService = diningReviewService;
     }
 
-    @GetMapping("/pending-approval")
-    public ResponseEntity<ApiResponse<List<DiningReviewResponse>>> getAllPendingApproval() {
-        List<DiningReviewResponse> response = this.diningReviewService.getAllPendingApproval();
+    @GetMapping({"", "/{status}"})
+    public ResponseEntity<ApiResponse<List<DiningReviewResponse>>> getAllDiningReview(
+            @PathVariable(name = "status", required = false) ReviewStatus status
+    ) {
+        List<DiningReviewResponse> response;
+
+        if (status != null) {
+            response = diningReviewService.getAllDiningReviewByStatus(status);
+        } else {
+            response = diningReviewService.getAllDiningReview();
+        }
+
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

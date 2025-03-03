@@ -8,13 +8,21 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/dining-review")
+@RequestMapping("/dining-reviews")
 public class DiningReviewController {
     private final DiningReviewService diningReviewService;
 
     public DiningReviewController(DiningReviewService diningReviewService) {
         this.diningReviewService = diningReviewService;
+    }
+
+    @GetMapping("/pending-approval")
+    public ResponseEntity<ApiResponse<List<DiningReviewResponse>>> getAllPendingApproval() {
+        List<DiningReviewResponse> response = this.diningReviewService.getAllPendingApproval();
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @PostMapping("/{userDisplayName}/{restaurantId}")

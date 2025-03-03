@@ -12,7 +12,9 @@ import com.codeacademy.diningreview.repository.RestaurantRepository;
 import com.codeacademy.diningreview.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DiningReviewService {
@@ -28,6 +30,21 @@ public class DiningReviewService {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
         this.diningReviewRepository = diningReviewRepository;
+    }
+
+    public List<DiningReviewResponse> getAllPendingApproval() {
+        List<DiningReview> diningReviews = this.diningReviewRepository.findByStatus(ReviewStatus.PENDING);
+        return diningReviews.stream().map(
+                        diningReview -> new DiningReviewResponse(
+                                diningReview.getSubmittedBy().getDisplayName(),
+                                diningReview.getRestaurant().getId(),
+                                diningReview.getPeanutScore(),
+                                diningReview.getEggScore(),
+                                diningReview.getDairyScore(),
+                                diningReview.getCommentary(),
+                                diningReview.getStatus()
+                        ))
+                .collect(Collectors.toList());
     }
 
     public DiningReviewResponse createDiningReview(

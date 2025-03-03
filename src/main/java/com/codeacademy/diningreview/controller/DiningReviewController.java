@@ -2,6 +2,7 @@ package com.codeacademy.diningreview.controller;
 
 import com.codeacademy.diningreview.dto.DiningReviewRequest;
 import com.codeacademy.diningreview.dto.DiningReviewResponse;
+import com.codeacademy.diningreview.enums.ReviewStatus;
 import com.codeacademy.diningreview.service.DiningReviewService;
 import com.codeacademy.diningreview.util.ApiResponse;
 import jakarta.validation.Valid;
@@ -38,5 +39,14 @@ public class DiningReviewController {
         );
 
         return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @PutMapping("/{id}/update-status/{newStatus}")
+    public ResponseEntity<ApiResponse<DiningReviewResponse>> updateStatus(
+            @PathVariable Long id,
+            @PathVariable ReviewStatus newStatus
+    ) {
+        DiningReviewResponse response = this.diningReviewService.updateStatus(id, newStatus);
+        return ResponseEntity.ok(ApiResponse.success("Status atualizado com sucesso!", response));
     }
 }

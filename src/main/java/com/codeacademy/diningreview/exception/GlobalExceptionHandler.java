@@ -8,7 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiResponse.error("Erro de validação", e.getMessage()));
     }
 
+    // Catch enums MethodArgumentTypeMismatchException errors (e.g. validation of enums on @PathVariable or @RequestParam)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<String>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Class<?> requiredType = ex.getRequiredType();
+        if (requiredType != null && requiredType.isEnum()) {
+            String allowedValues = Arrays.toString(requiredType.getEnumConstants());
+            String errorMessage = "Valor inválido para " + requiredType.getSimpleName() +
+                    ". Os valores permitidos são: " + allowedValues;
+            return ResponseEntity.badRequest().body(ApiResponse.error(errorMessage));
+        }
+        return ResponseEntity.badRequest().body(ApiResponse.error("Valor inválido: " + ex.getValue()));
+    }
+
     // Catches exceptions from NotFoundException
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiResponse<String>> handleNotFoundException(NotFoundException e) {
@@ -44,7 +59,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handleForbiddenActionException(ForbiddenActionException e) {
         return ResponseEntity.status(403).body(ApiResponse.error(e.getMessage()));
     }
-
 
     // Catches exceptions from RestaurantAlreadyExistsException
     @ExceptionHandler(AlreadyExistsException.class)

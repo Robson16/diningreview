@@ -88,4 +88,27 @@ public class DiningReviewService {
                 savedDiningReview.getStatus()
         );
     }
+
+    public DiningReviewResponse updateStatus(Long id, ReviewStatus newStatus) {
+        Optional<DiningReview> diningReviewOptional = this.diningReviewRepository.findById(id);
+        if (diningReviewOptional.isEmpty()) {
+            throw new NotFoundException("Dining Review não encontrado.");
+        }
+
+        DiningReview diningReview = diningReviewOptional.get();
+
+        diningReview.setStatus(newStatus);
+
+        DiningReview savedDiningReview = this.diningReviewRepository.save(diningReview);
+
+        return new DiningReviewResponse(
+                savedDiningReview.getSubmittedBy().getDisplayName(),
+                savedDiningReview.getRestaurant().getId(),
+                savedDiningReview.getPeanutScore(),
+                savedDiningReview.getEggScore(),
+                savedDiningReview.getDairyScore(),
+                savedDiningReview.getCommentary(),
+                savedDiningReview.getStatus()
+        );
+    }
 }

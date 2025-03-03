@@ -36,6 +36,7 @@ public class DiningReviewService {
         List<DiningReview> diningReviews = this.diningReviewRepository.findByStatus(ReviewStatus.PENDING);
         return diningReviews.stream().map(
                         diningReview -> new DiningReviewResponse(
+                                diningReview.getId(),
                                 diningReview.getSubmittedBy().getDisplayName(),
                                 diningReview.getRestaurant().getId(),
                                 diningReview.getPeanutScore(),
@@ -79,6 +80,7 @@ public class DiningReviewService {
         DiningReview savedDiningReview = this.diningReviewRepository.save(diningReview);
 
         return new DiningReviewResponse(
+                savedDiningReview.getId(),
                 savedDiningReview.getSubmittedBy().getDisplayName(),
                 savedDiningReview.getRestaurant().getId(),
                 savedDiningReview.getPeanutScore(),
@@ -102,6 +104,7 @@ public class DiningReviewService {
         DiningReview savedDiningReview = this.diningReviewRepository.save(diningReview);
 
         return new DiningReviewResponse(
+                savedDiningReview.getId(),
                 savedDiningReview.getSubmittedBy().getDisplayName(),
                 savedDiningReview.getRestaurant().getId(),
                 savedDiningReview.getPeanutScore(),

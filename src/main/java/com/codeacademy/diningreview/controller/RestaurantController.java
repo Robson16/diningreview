@@ -51,4 +51,10 @@ public class RestaurantController {
         RestaurantResponse response = this.restaurantService.createRestaurant(restaurant);
         return ResponseEntity.ok(ApiResponse.success("Restaurante criado com sucesso!", response));
     }
+
+    @PutMapping("/{restaurantId}/update-scores")
+    public ResponseEntity<ApiResponse<RestaurantResponse>> updateRestaurantScores(@PathVariable Long restaurantId) {
+        RestaurantResponse response = restaurantService.updateScores(restaurantId);
+        return ResponseEntity.ok(ApiResponse.success("Scores atualizados com sucesso!", response));
+    }
 }

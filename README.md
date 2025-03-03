@@ -3,14 +3,18 @@
 This project is the final assignment for the **Create REST APIs with Spring and Java** course from [Codecademy](https://www.codecademy.com/).
 
 ## Overview
-The **Dining Review API** is a RESTful web service that allows users to submit and review restaurants based on allergy-friendly criteria. The system enables users to rate restaurants based on peanut, egg, and dairy allergy-friendliness. An admin user is responsible for reviewing and approving submitted reviews.
+The **Dining Review API** is a RESTful web service that enables users to submit reviews for restaurants based on allergy-friendly criteria. Users can rate restaurants on a scale from 1 to 5 for peanut, egg, and dairy safety. Admins review and approve or reject these dining reviews. Additionally, the API recalculates and updates restaurant scores based on approved reviews.
 
 ## Features
-- Users can submit dining reviews with optional scores for peanut, egg, and dairy allergies.
-- Restaurants store the average scores for each allergy category and an overall score.
-- Admins can approve or reject dining reviews.
+- **User Reviews:** Users submit dining reviews with scores for peanut, egg, and dairy allergies, plus optional commentary.
+- **Score Aggregation:** Restaurants store average scores for each allergy category as well as an overall score, calculated from approved reviews.
+- **Admin Actions:** Admins can view pending reviews and update a review's status (approve or reject).
+- **Flexible Endpoints:** Routes accept optional parameters (e.g., filtering dining reviews by status).
+- **DTO-based Communication:** Both request and response data are managed through DTOs to decouple internal models from the API contract.
+- **Global Exception Handling:** Errors and validation issues are managed centrally for clean and consistent API responses.
 
 ## Data Models
+
 ### Restaurant
 - `id` (Long) - Unique identifier
 - `name` (String) - Restaurant name
@@ -33,15 +37,38 @@ The **Dining Review API** is a RESTful web service that allows users to submit a
 
 ### DiningReview
 - `id` (Long) - Unique identifier
-- `submittedBy` (String) - User who submitted the review
-- `restaurantId` (Long) - Reviewed restaurant
+- `submittedBy` (User) - User who submitted the review
+- `restaurant` (Restaurant) - Reviewed restaurant
 - `peanutScore` (Double) - Score (1-5) for peanut allergy safety
 - `eggScore` (Double) - Score (1-5) for egg allergy safety
 - `dairyScore` (Double) - Score (1-5) for dairy allergy safety
 - `commentary` (String) - Optional comments
+- `status` (ReviewStatus): Indicates whether the review is pending, approved or rejected.
 
-### Admin Review Action
-- `accepted` (Boolean) - Indicates whether the review is accepted or rejected
+### ReviewStatus (Enum)
+- **PENDING**
+- **APPROVED**
+- **REJECTED**
+
+## Endpoints Overview
+
+### Users
+- **POST /users:** Create a new user profile.
+- **GET /users:** List of users.
+- **GET /users/{displayName}:** Retrieve user profile(s).
+- **PUT /users/{displayName}:** Update user data (displayName remains immutable).
+
+### Restaurants
+- **POST /restaurants:** Creates a new restaurant.
+- **GET /restaurants:** List of restaurants.
+- **GET /restaurants/{restaurantId}:** Details of the given restaurant.
+- **GET /restaurants/search?zipCode=12345678&peanut=true&egg=true&dairy=true:** Search for restaurants by zip code and filter by allergy, if has scores calculated (one or more).
+- **PUT /restaurants/{restaurantId}/update-scores:** Recalculate and update a restaurant’s scores based on approved dining reviews.
+
+### Dining Reviews
+- **POST /dining-reviews/{userDisplayName}/{restaurantId}:** Submit a new dining review.
+- **PUT /dining-reviews/{id}/update-status/{newStatus}:** Update the status of a dining review.
+- **GET /dining-reviews/{?status}:** Retrieve dining reviews, optionally filtered by status (PENDING, APPROVED, REJECTED).
 
 ## Technologies Used
 - **Java**
@@ -49,6 +76,7 @@ The **Dining Review API** is a RESTful web service that allows users to submit a
 - **Spring Data JPA**
 - **H2 Database** (for local persistence)
 - **Lombok** (for reducing boilerplate code)
+- **Global Exception Handling** with `@RestControllerAdvice` for consistent error responses
 
 ## Setup Instructions
 1. Clone the repository:
